@@ -1,30 +1,24 @@
-resource "azurerm_public_ip" "ip" {
-  count = var.allocate_public_ip ? 1 : 0
+data "azurerm_resource_group" "rg" {
+  name = var.resource_group_name
+}
 
-  location            = var.location
-  name                = local.ip_name
-  resource_group_name = var.resource_group_name
+data "azurerm_virtual_network" "vnet" {
+  name = var.vnet_name
+  resource_group_name = data.azurerm_resource_group.rg.name
+}
 
-  sku               = var.public_ip_sku
-  allocation_method = var.public_ip_allocation_method
-
-  tags = merge(local.default_tags, var.extra_tags, var.ip_extra_tags)
+data "azurerm_subnet" "subnet" {
+  name = var.frontend_subnet_name
+  virtual_network_name = data.azurerm_virtual_network.vnet.name
+  resource_group_name = data.azurerm_resource_group.rg.name
 }
 
 resource "azurerm_lb" "lb" {
   location            = var.location
   name                = local.lb_name
-  resource_group_name = var.resource_group_name
+  resource_group_name = data.azurerm_resource_group.rg.name
 
   sku = var.sku_name
-
-  dynamic "frontend_ip_configuration" {
-    for_each = azurerm_public_ip.ip
-    content {
-      name                 = local.ip_configuration_name
-      public_ip_address_id = frontend_ip_configuration.value.id
-    }
-  }
 
   dynamic "frontend_ip_configuration" {
     for_each = var.lb_frontend_ip_configurations
@@ -48,18 +42,34 @@ resource "azurerm_lb_backend_address_pool" "default_pool" {
   resource_group_name = var.resource_group_name
 }
 
-resource "azurerm_lb_outbound_rule" "outbound" {
-  count = var.enable_nat ? 1 : 0
+resource "azurerm_lb_rule" "lb_rule" {
+  for_each = var.lb_rules
+  content {
+      name = each.key
 
-  name                = "default"
-  resource_group_name = var.resource_group_name
+      resource_group_name = data.azurerm_resource_group.rg.name
+      loadbalancer_id = azurerm_lb.lb.id
+      
+      frontend_ip_configuration_name = lookup(each.value, "frontend_ip_configuration_names")
+      probe_id = lookup(each.value, "probe_id")
+      protocol = lookup(each.value, "protocol")
+      frontend_port = lookup(each.value, "frontend_port")
+      backend_port = lookup(each.value, "backend_port")
+    }
+}
 
-  backend_address_pool_id  = azurerm_lb_backend_address_pool.default_pool.id
-  loadbalancer_id          = azurerm_lb.lb.id
-  protocol                 = var.nat_protocol
-  allocated_outbound_ports = var.nat_allocated_outbound_ports
+resource "azurerm_lb_probe" "lb_probe" {
+  for_each = var.lb_rules
+  content {
+      name = each.key
 
-  frontend_ip_configuration {
-    name = local.ip_configuration_name
-  }
+      resource_group_name = data.azurerm_resource_group.rg.name
+      loadbalancer_id = azurerm_lb.lb.id
+      
+      protocol = lookup(each.value, "protocol")
+      port = lookup(each.value, "port")
+      interval_in_seconds = lookup(each.value, "probe_interval", 15)
+      number_of_probes = lookup(each.value, "num_probes", 2)
+      request_path = lookup(each.value, "request_path")
+    }
 }
