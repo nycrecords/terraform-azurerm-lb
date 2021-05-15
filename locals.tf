@@ -14,7 +14,7 @@ locals {
 
   lb_name = coalesce(
     var.lb_custom_name,
-    "${local.name_prefix}-${local.location_short}-${var.environment}-lb",
+    "${local.name_prefix}${local.location_short}-${var.environment}-lb",
   )
 
 }
