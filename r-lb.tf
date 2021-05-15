@@ -14,7 +14,7 @@ data "azurerm_subnet" "subnet" {
 }
 
 resource "azurerm_lb" "lb" {
-  location            = var.location
+  location            = local.location
   name                = local.lb_name
   resource_group_name = data.azurerm_resource_group.rg.name
 
