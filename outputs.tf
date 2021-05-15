@@ -39,11 +39,15 @@ output "backend_address_pool_load_balancing_rules" {
 }
 
 output "lb_rule_id" {
-  description = "Id of the default outbound rule if any"
-  value       = join("", azurerm_lb_rule.lb_rule.*.id)
+  description = "Id of the load balancer rules if any"
+  value = tomap({
+    for k, v in azurerm_lb_rule.lb_rule : k => v.id
+  }
 }
 
-output "lb_probe_id" {
-  description = "Id of the default outbound probe if any"
-  value       = join("", azurerm_lb_probe.lb_probe.*.id)
+output "lb_probe_ids" {
+  description = "Ids of the load balancer probe if any"
+  value = tomap({
+    for k, v in azurerm_lb_probe.lb_rule : k => v.id
+  }
 }
