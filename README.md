@@ -7,7 +7,7 @@ with possible Public IP address and [basic NAT](https://docs.microsoft.com/en-us
 ## Version compatibility
 
 | Module version | Terraform version | AzureRM version |
-|----------------|-------------------| --------------- |
+| -------------- | ----------------- | --------------- |
 | >= 4.x.x       | 0.13.x            | >= 2.0          |
 | >= 3.x.x       | 0.12.x            | >= 2.0          |
 | >= 2.x.x       | 0.12.x            | < 2.0           |
@@ -57,48 +57,37 @@ module "lb" {
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| allocate\_public\_ip | True to allocate a Public IP to the Load Balancer. | `bool` | `false` | no |
-| client\_name | Client name/account used in naming | `string` | n/a | yes |
-| enable\_nat | True to enable NAT through Load Balancer outbound rules. | `bool` | `false` | no |
-| environment | Project environment | `string` | n/a | yes |
-| extra\_tags | Extra tags to add on all resources. | `map(string)` | `{}` | no |
-| ip\_custom\_name | Name of the Public IP address, generated if not set. | `string` | `""` | no |
-| ip\_extra\_tags | Extra tags to add to the Public IP address. | `map(string)` | `{}` | no |
-| lb\_custom\_name | Name of the Load Balancer, generated if not set. | `string` | `""` | no |
-| lb\_extra\_tags | Extra tags to add to the Load Balancer. | `map(string)` | `{}` | no |
-| lb\_frontend\_ip\_configurations | `frontend_ip_configuration` blocks as documented here: https://www.terraform.io/docs/providers/azurerm/r/lb.html#frontend_ip_configuration | `map(any)` | `{}` | no |
-| location | Azure location. | `string` | n/a | yes |
-| location\_short | Short string for Azure location. | `string` | n/a | yes |
-| name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
-| nat\_allocated\_outbound\_ports | Number of allocated outbound ports for NAT. | `number` | `1024` | no |
-| nat\_protocol | Transport protocol to use for NAT. | `string` | `"All"` | no |
-| public\_ip\_allocation\_method | Allocation method for the Public IP address, can be `Static`, `Dynamic`. | `string` | `"Static"` | no |
-| public\_ip\_sku | SKU name for the Public IP address, can be `Basic` or `Standard`. | `string` | `"Standard"` | no |
-| resource\_group\_name | Resource group name | `string` | n/a | yes |
-| sku\_name | The Name of the SKU used for this Load Balancer. Possible values are "Basic" and "Standard". | `string` | `"Standard"` | no |
-| stack | Project stack name | `string` | n/a | yes |
+| Name                             | Description                                                                                                                                | Type          | Default      | Required |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------- | ------------ | :------: |
+| environment                      | Project environment                                                                                                                        | `string`      | n/a          |   yes    |
+| extra\_tags                      | Extra tags to add on all resources.                                                                                                        | `map(string)` | `{}`         |    no    |
+| frontend\_subnet\_name           | Name for the subnet where the load balancer frontend ip is deployed                                                                        | `string`      | n/a          |   yes    |
+| lb\_custom\_name                 | Name of the Load Balancer, generated if not set.                                                                                           | `string`      | `""`         |    no    |
+| lb\_extra\_tags                  | Extra tags to add to the Load Balancer.                                                                                                    | `map(string)` | `{}`         |    no    |
+| lb\_frontend\_ip\_configurations | `frontend_ip_configuration` blocks as documented here: https://www.terraform.io/docs/providers/azurerm/r/lb.html#frontend_ip_configuration | `map(any)`    | `{}`         |    no    |
+| lb\_probes                       | `lb_probes` blocks as documented here: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/lb_probe            | `map(any)`    | `{}`         |    no    |
+| lb\_rules                        | `lb_rules` blocks as documented here: https://www.terraform.io/docs/providers/azurerm/r/lb_rule                                            | `map(any)`    | `{}`         |    no    |
+| name\_prefix                     | Optional prefix for the generated name                                                                                                     | `string`      | `""`         |    no    |
+| region                           | Region where load balancer is deployed.                                                                                                    | `string`      | n/a          |   yes    |
+| resource\_group\_name            | Resource group name                                                                                                                        | `string`      | n/a          |   yes    |
+| sku\_name                        | The Name of the SKU used for this Load Balancer. Possible values are "Basic" and "Standard".                                               | `string`      | `"Standard"` |    no    |
+| vnet\_name                       | Virtual network name                                                                                                                       | `string`      | n/a          |   yes    |
+| vnet\_resource\_group\_name      | Virtual Network Resource group name                                                                                                        | `string`      | n/a          |   yes    |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| backend\_address\_pool\_id | Id of the associated default backend address pool |
-| backend\_address\_pool\_ip\_configurations | IP configurations of the associated default backend address pool |
+| Name                                           | Description                                                         |
+| ---------------------------------------------- | ------------------------------------------------------------------- |
+| backend\_address\_pool\_id                     | Id of the associated default backend address pool                   |
+| backend\_address\_pool\_ip\_configurations     | IP configurations of the associated default backend address pool    |
 | backend\_address\_pool\_load\_balancing\_rules | Load balancing rules of the associated default backend address pool |
-| backend\_address\_pool\_name | Name of the associated default backend address pool |
-| lb\_id | Id of the Load Balancer |
-| lb\_name | Name of the Load Balancer |
-| lb\_private\_ip\_address | Private IP address of the Load Balancer |
-| lb\_private\_ip\_addresses | Private IP addresses of the Load Balancer |
-| outbound\_rule\_allocated\_outbound\_ports | Number of allocated oubound ports of the default outbound rule if any |
-| outbound\_rule\_id | Id of the default outbound rule if any |
-| outbound\_rule\_name | Name of the default outbound rule if any |
-| pubip\_domain\_name\_label | Domain name label of the Public IP address if any |
-| pubip\_fqdn | FQDN of the Public IP address if any |
-| pubip\_id | Id of the Public IP address if any |
-| pubip\_ip\_address | IP address of the Public IP address if any |
+| backend\_address\_pool\_name                   | Name of the associated default backend address pool                 |
+| lb\_id                                         | Id of the Load Balancer                                             |
+| lb\_name                                       | Name of the Load Balancer                                           |
+| lb\_private\_ip\_address                       | Private IP address of the Load Balancer                             |
+| lb\_private\_ip\_addresses                     | Private IP addresses of the Load Balancer                           |
+| lb\_probe\_ids                                 | Ids of the load balancer probe if any                               |
+| lb\_rule\_id                                   | Id of the load balancer rules if any                                |
 
 ## Related documentation
 
