@@ -55,7 +55,7 @@ module "lb" {
 }
 ```
 
-## Inputs
+# Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
