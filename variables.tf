@@ -29,7 +29,7 @@ variable "vnet_name" {
 }
 
 variable "frontend_subnet_name" {
-  description = "Name for the subnet where the load balancer frontend ip is deployed".
+  description = "Name for the subnet where the load balancer frontend ip is deployed"
   type = string
 }
 
