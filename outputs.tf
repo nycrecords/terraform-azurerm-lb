@@ -48,6 +48,6 @@ output "lb_rule_id" {
 output "lb_probe_ids" {
   description = "Ids of the load balancer probe if any"
   value = tomap({
-    for k, v in azurerm_lb_probe.lb_rule : k => v.id
+    for k, v in azurerm_lb_probe.lb_rule : k => v.id,
   }
 }
