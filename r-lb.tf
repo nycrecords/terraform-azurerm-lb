@@ -39,7 +39,6 @@ resource "azurerm_lb" "lb" {
 resource "azurerm_lb_backend_address_pool" "default_pool" {
   loadbalancer_id     = azurerm_lb.lb.id
   name                = "defautlBackendAddressPool"
-  resource_group_name = var.resource_group_name
 }
 
 resource "azurerm_lb_rule" "lb_rule" {
