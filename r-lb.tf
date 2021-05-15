@@ -25,7 +25,7 @@ resource "azurerm_lb" "lb" {
     content {
       name = frontend_ip_configuration.key
 
-      subnet_id                     = lookup(frontend_ip_configuration.value, "subnet_id", null)
+      subnet_id                     = data.azurerm_subnet.subnet.id
       private_ip_address            = lookup(frontend_ip_configuration.value, "private_ip_address", null)
       private_ip_address_allocation = lookup(frontend_ip_configuration.value, "private_ip_address_allocation", "Dynamic")
       zones                         = tolist(lookup(frontend_ip_configuration.value, "zones", null))
