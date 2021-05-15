@@ -18,6 +18,21 @@ variable "resource_group_name" {
   type        = string
 }
 
+variable "vnet_resource_group_name" {
+  description = "Virtual Network Resource group name"
+  type        = string
+}
+
+variable "vnet_name" {
+  description = "Virtual network name"
+  type        = string
+}
+
+variable "frontend_subnet_name" {
+  description = "Name for the subnet where the load balancer frontend ip is deployed".
+  type = string
+}
+
 variable "sku_name" {
   description = "The Name of the SKU used for this Load Balancer. Possible values are \"Basic\" and \"Standard\"."
   type        = string

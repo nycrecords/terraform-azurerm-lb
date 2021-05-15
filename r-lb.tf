@@ -4,13 +4,13 @@ data "azurerm_resource_group" "rg" {
 
 data "azurerm_virtual_network" "vnet" {
   name = var.vnet_name
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = var.vnet_resource_group_name
 }
 
 data "azurerm_subnet" "subnet" {
   name = var.frontend_subnet_name
   virtual_network_name = data.azurerm_virtual_network.vnet.name
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = var.vnet_resource_group_name
 }
 
 resource "azurerm_lb" "lb" {
