@@ -40,14 +40,14 @@ output "backend_address_pool_load_balancing_rules" {
 
 output "lb_rule_id" {
   description = "Id of the load balancer rules if any"
-  value = tomap({
-    for k, v in azurerm_lb_rule.lb_rule : k => v.id
-  }
+   value = toset([
+    for lb_rule in azurerm_lb_rule.lb_rule : lb_rule.name
+  ])
 }
 
 output "lb_probe_ids" {
   description = "Ids of the load balancer probe if any"
-  value = tomap({
-    for k, v in azurerm_lb_probe.lb_rule : k => v.id,
-  }
+   value = toset([
+    for lb_probe in azurerm_lb_probe.lb_probe : lb_probe.name
+  ])
 }
