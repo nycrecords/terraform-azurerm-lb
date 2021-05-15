@@ -5,9 +5,9 @@ module "azure_region" {
 }
 locals {
   location_short = module.azure_region.location_short
-  location = module.azure_region.location
+  location       = module.azure_region.location
   default_tags = {
-    env   = var.environment
+    env = var.environment
   }
 
   name_prefix = var.name_prefix != "" ? replace(var.name_prefix, "/[a-z0-9]$/", "$0-") : ""
