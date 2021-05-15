@@ -36,11 +36,6 @@ resource "azurerm_lb" "lb" {
   tags = merge(local.default_tags, var.extra_tags, var.lb_extra_tags)
 }
 
-resource "azurerm_lb_backend_address_pool" "default_pool" {
-  loadbalancer_id     = azurerm_lb.lb.id
-  name                = "defautlBackendAddressPool"
-}
-
 resource "azurerm_lb_rule" "lb_rule" {
   for_each = var.lb_rules
   name     = each.key
@@ -67,4 +62,18 @@ resource "azurerm_lb_probe" "lb_probe" {
   interval_in_seconds = lookup(each.value, "probe_interval", 15)
   number_of_probes    = lookup(each.value, "num_probes", 2)
   request_path        = lookup(each.value, "request_path")
+}
+
+resource "azurerm_lb_backend_address_pool" "default_pool" {
+  loadbalancer_id     = azurerm_lb.lb.id
+  name                = "defautlBackendAddressPool"
+}
+
+resource "azurerm_lb_backend_address_pool_address" "backend_pool_address" {
+  for_each = var.backend_pool_addresses
+
+  name                    = each.name
+  backend_address_pool_id = data.azurerm_lb_backend_address_pool.default_pool.id
+  virtual_network_id      = data.azurerm_virtual_network.vnet.id
+  ip_address              = lookup(each, "ip_address")
 }
