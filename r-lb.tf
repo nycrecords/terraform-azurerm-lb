@@ -49,7 +49,7 @@ resource "azurerm_lb_rule" "lb_rule" {
   loadbalancer_id     = azurerm_lb.lb.id
 
   frontend_ip_configuration_name = lookup(each.value, "frontend_ip_configuration_name")
-  probe_id                       = "${azurerm_lb.lb.id}/probes/" + lookup(each.value, "probe_id")
+  probe_id                       = "${azurerm_lb.lb.id}/probes/${lookup(each.value, "probe_id")}"
   protocol                       = lookup(each.value, "protocol")
   frontend_port                  = lookup(each.value, "frontend_port")
   backend_port                   = lookup(each.value, "backend_port")
