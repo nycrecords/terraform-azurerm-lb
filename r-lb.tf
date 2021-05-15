@@ -72,7 +72,7 @@ resource "azurerm_lb_backend_address_pool" "default_pool" {
 resource "azurerm_lb_backend_address_pool_address" "backend_pool_address" {
   for_each = var.backend_pool_addresses
 
-  name                    = each.name
+  name                    = each.key
   backend_address_pool_id = azurerm_lb_backend_address_pool.default_pool.id
   virtual_network_id      = data.azurerm_virtual_network.vnet.id
   ip_address              = lookup(each.value, "ip_address")
