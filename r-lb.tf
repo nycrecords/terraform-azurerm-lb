@@ -59,7 +59,7 @@ resource "azurerm_lb_rule" "lb_rule" {
 }
 
 resource "azurerm_lb_probe" "lb_probe" {
-  for_each = var.lb_rules
+  for_each = var.lb_probes
   content {
       name = each.key
 
