@@ -49,7 +49,7 @@ resource "azurerm_lb_rule" "lb_rule" {
   resource_group_name = data.azurerm_resource_group.rg.name
   loadbalancer_id     = azurerm_lb.lb.id
 
-  frontend_ip_configuration_name = lookup(each.value, "frontend_ip_configuration_names")
+  frontend_ip_configuration_name = lookup(each.value, "frontend_ip_configuration_name")
   probe_id                       = lookup(each.value, "probe_id")
   protocol                       = lookup(each.value, "protocol")
   frontend_port                  = lookup(each.value, "frontend_port")
