@@ -75,5 +75,5 @@ resource "azurerm_lb_backend_address_pool_address" "backend_pool_address" {
   name                    = each.name
   backend_address_pool_id = data.azurerm_lb_backend_address_pool.default_pool.id
   virtual_network_id      = data.azurerm_virtual_network.vnet.id
-  ip_address              = lookup(each, "ip_address")
+  ip_address              = lookup(each.value, "ip_address")
 }
