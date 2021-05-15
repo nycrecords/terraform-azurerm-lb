@@ -4,8 +4,8 @@ module "azure_region" {
   azure_region = var.region
 }
 locals {
-  location_short = module.azure_region.output.location_short
-  location = module.azure_region.output.location
+  location_short = module.azure_region.location_short
+  location = module.azure_region.location
   default_tags = {
     env   = var.environment
   }

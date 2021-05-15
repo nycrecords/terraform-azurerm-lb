@@ -3,6 +3,11 @@ variable "environment" {
   type        = string
 }
 
+variable "region" {
+  description = "Region where load balancer is deployed."
+  type = string
+}
+
 variable "resource_group_name" {
   description = "Resource group name"
   type        = string
