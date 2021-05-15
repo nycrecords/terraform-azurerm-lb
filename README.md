@@ -57,37 +57,38 @@ module "lb" {
 
 ## Inputs
 
-| Name                             | Description                                                                                                                                | Type          | Default      | Required |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------- | ------------ | :------: |
-| environment                      | Project environment                                                                                                                        | `string`      | n/a          |   yes    |
-| extra\_tags                      | Extra tags to add on all resources.                                                                                                        | `map(string)` | `{}`         |    no    |
-| frontend\_subnet\_name           | Name for the subnet where the load balancer frontend ip is deployed                                                                        | `string`      | n/a          |   yes    |
-| lb\_custom\_name                 | Name of the Load Balancer, generated if not set.                                                                                           | `string`      | `""`         |    no    |
-| lb\_extra\_tags                  | Extra tags to add to the Load Balancer.                                                                                                    | `map(string)` | `{}`         |    no    |
-| lb\_frontend\_ip\_configurations | `frontend_ip_configuration` blocks as documented here: https://www.terraform.io/docs/providers/azurerm/r/lb.html#frontend_ip_configuration | `map(any)`    | `{}`         |    no    |
-| lb\_probes                       | `lb_probes` blocks as documented here: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/lb_probe            | `map(any)`    | `{}`         |    no    |
-| lb\_rules                        | `lb_rules` blocks as documented here: https://www.terraform.io/docs/providers/azurerm/r/lb_rule                                            | `map(any)`    | `{}`         |    no    |
-| name\_prefix                     | Optional prefix for the generated name                                                                                                     | `string`      | `""`         |    no    |
-| region                           | Region where load balancer is deployed.                                                                                                    | `string`      | n/a          |   yes    |
-| resource\_group\_name            | Resource group name                                                                                                                        | `string`      | n/a          |   yes    |
-| sku\_name                        | The Name of the SKU used for this Load Balancer. Possible values are "Basic" and "Standard".                                               | `string`      | `"Standard"` |    no    |
-| vnet\_name                       | Virtual network name                                                                                                                       | `string`      | n/a          |   yes    |
-| vnet\_resource\_group\_name      | Virtual Network Resource group name                                                                                                        | `string`      | n/a          |   yes    |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| backend\_pool\_addresses | Map of IP Address Names and IP Addresses to be added to the default backend pool | `map(any)` | `{}` | no |
+| environment | Project environment | `string` | n/a | yes |
+| extra\_tags | Extra tags to add on all resources. | `map(string)` | `{}` | no |
+| frontend\_subnet\_name | Name for the subnet where the load balancer frontend ip is deployed | `string` | n/a | yes |
+| lb\_custom\_name | Name of the Load Balancer, generated if not set. | `string` | `""` | no |
+| lb\_extra\_tags | Extra tags to add to the Load Balancer. | `map(string)` | `{}` | no |
+| lb\_frontend\_ip\_configurations | `frontend_ip_configuration` blocks as documented here: https://www.terraform.io/docs/providers/azurerm/r/lb.html#frontend_ip_configuration | `map(any)` | `{}` | no |
+| lb\_probes | `lb_probes` blocks as documented here: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/lb_probe | `map(any)` | `{}` | no |
+| lb\_rules | `lb_rules` blocks as documented here: https://www.terraform.io/docs/providers/azurerm/r/lb_rule | `map(any)` | `{}` | no |
+| name\_prefix | Optional prefix for the generated name | `string` | `""` | no |
+| region | Region where load balancer is deployed. | `string` | n/a | yes |
+| resource\_group\_name | Resource group name | `string` | n/a | yes |
+| sku\_name | The Name of the SKU used for this Load Balancer. Possible values are "Basic" and "Standard". | `string` | `"Standard"` | no |
+| vnet\_name | Virtual network name | `string` | n/a | yes |
+| vnet\_resource\_group\_name | Virtual Network Resource group name | `string` | n/a | yes |
 
 ## Outputs
 
-| Name                                           | Description                                                         |
-| ---------------------------------------------- | ------------------------------------------------------------------- |
-| backend\_address\_pool\_id                     | Id of the associated default backend address pool                   |
-| backend\_address\_pool\_ip\_configurations     | IP configurations of the associated default backend address pool    |
+| Name | Description |
+|------|-------------|
+| backend\_address\_pool\_id | Id of the associated default backend address pool |
+| backend\_address\_pool\_ip\_configurations | IP configurations of the associated default backend address pool |
 | backend\_address\_pool\_load\_balancing\_rules | Load balancing rules of the associated default backend address pool |
-| backend\_address\_pool\_name                   | Name of the associated default backend address pool                 |
-| lb\_id                                         | Id of the Load Balancer                                             |
-| lb\_name                                       | Name of the Load Balancer                                           |
-| lb\_private\_ip\_address                       | Private IP address of the Load Balancer                             |
-| lb\_private\_ip\_addresses                     | Private IP addresses of the Load Balancer                           |
-| lb\_probe\_ids                                 | Ids of the load balancer probe if any                               |
-| lb\_rule\_id                                   | Id of the load balancer rules if any                                |
+| backend\_address\_pool\_name | Name of the associated default backend address pool |
+| lb\_id | Id of the Load Balancer |
+| lb\_name | Name of the Load Balancer |
+| lb\_private\_ip\_address | Private IP address of the Load Balancer |
+| lb\_private\_ip\_addresses | Private IP addresses of the Load Balancer |
+| lb\_probe\_ids | Ids of the load balancer probe if any |
+| lb\_rule\_id | Id of the load balancer rules if any |
 
 ## Related documentation
 

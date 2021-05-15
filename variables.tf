@@ -75,3 +75,9 @@ variable "lb_probes" {
   type        = map(any)
   default     = {}
 }
+
+variable "backend_pool_addresses" {
+  description = "Map of IP Address Names and IP Addresses to be added to the default backend pool"
+  type        = map(any)
+  default     = {}
+}
