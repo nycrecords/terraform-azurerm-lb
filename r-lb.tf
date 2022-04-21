@@ -41,7 +41,7 @@ resource "azurerm_lb_rule" "lb_rule" {
   name     = each.key
 
   loadbalancer_id     = azurerm_lb.lb.id
-  backend_address_pool_ids = azurerm_lb_backend_address_pool.default_pool.id
+  backend_address_pool_ids = [azurerm_lb_backend_address_pool.default_pool.id]
 
   frontend_ip_configuration_name = lookup(each.value, "frontend_ip_configuration_name")
   probe_id                       = "${azurerm_lb.lb.id}/probes/${lookup(each.value, "probe_id")}"
