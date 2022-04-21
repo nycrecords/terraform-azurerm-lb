@@ -40,9 +40,8 @@ resource "azurerm_lb_rule" "lb_rule" {
   for_each = var.lb_rules
   name     = each.key
 
-  resource_group_name = data.azurerm_resource_group.rg.name
   loadbalancer_id     = azurerm_lb.lb.id
-  backend_address_pool_id = azurerm_lb_backend_address_pool.default_pool.id
+  backend_address_pool_ids = azurerm_lb_backend_address_pool.default_pool.id
 
   frontend_ip_configuration_name = lookup(each.value, "frontend_ip_configuration_name")
   probe_id                       = "${azurerm_lb.lb.id}/probes/${lookup(each.value, "probe_id")}"
@@ -55,7 +54,6 @@ resource "azurerm_lb_probe" "lb_probe" {
   for_each = var.lb_probes
   name     = each.key
 
-  resource_group_name = data.azurerm_resource_group.rg.name
   loadbalancer_id     = azurerm_lb.lb.id
 
   protocol            = lookup(each.value, "protocol")
@@ -67,7 +65,7 @@ resource "azurerm_lb_probe" "lb_probe" {
 
 resource "azurerm_lb_backend_address_pool" "default_pool" {
   loadbalancer_id     = azurerm_lb.lb.id
-  name                = "defautlBackendAddressPool"
+  name                = "defaultBackendAddressPool"
 }
 
 resource "azurerm_lb_backend_address_pool_address" "backend_pool_address" {
